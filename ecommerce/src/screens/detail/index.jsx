@@ -7,7 +7,7 @@ import {
   MinusCirlce,
   Star1,
 } from 'iconsax-react-nativejs';
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,8 @@ import AppColors from '../../ui/appColors';
 import AppStyles from '../../ui/appStyles';
 import AppRoutes from '../../navigation/routes';
 import { productsColor } from '../../constants';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/slices/cartSlice';
 
 // create a component
 const ProductDetail = () => {
@@ -28,6 +30,17 @@ const ProductDetail = () => {
   const navigation = useNavigation();
   const product = params.product;
 
+  const dispatch = useDispatch();
+
+  // Seçili renk yönetimi için bir state oluştur
+  const [selectedColor, setSelectedColor] = useState('#A15B4F');
+
+  // Sepete ürün ekleyecek fonksiyon
+  const handleAddToCart = () => {
+    // Bu fonksiyondan beklentimiz sepete ürün ekleme işlemi yapmasıdır.Ama bu işlem sırasında eğer ürün sepetteyse bu ürünü sıfırdan eklemek yerine miktarını bir arttırsın
+    dispatch(addToCart(product));
+  };
+
   return (
     <ScrollView>
       {/* Header */}
@@ -35,7 +48,8 @@ const ProductDetail = () => {
         style={[AppStyles.row, AppStyles.rowBetween, AppStyles.detailHeader]}
       >
         {/* Back Icon */}
-        <TouchableOpacity>
+        {/* Geri ikonuna tıklanınca bir geri sayfaya yönlendir */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowLeft2 size="25" color={AppColors.black} />
         </TouchableOpacity>
         {/* Title */}
@@ -76,40 +90,57 @@ const ProductDetail = () => {
         </View>
 
         {/* Raiting && Stock */}
-        <View style={[AppStyles.row, AppStyles.rowBetween]}>
+        <View
+          style={[
+            AppStyles.row,
+            AppStyles.rowBetween,
+            AppStyles.ratingContainer,
+          ]}
+        >
           <View style={AppStyles.row}>
             <Star1 size="20" color={AppColors.star} />
-            <Text style={AppStyles.reviews}>
-              4.8
-              <Text style={AppStyles.reviewsCount}>(320 Reviews)</Text>
+            <Text style={AppStyles.reviews}>{product.rating}</Text>
+            <Text style={AppStyles.reviewsCount}>
+              ({product.reviews.length} Reviews)
             </Text>
           </View>
-          <View style={AppStyles.stock}>
-            <Text>Avaliable Stock</Text>
-          </View>
+
+          <Text style={AppStyles.stock}>Avaliable Stock</Text>
         </View>
 
         {/* Colors */}
-        <View style={AppStyles.colorsWrapper}>
-          {productsColor.map(item => (
-            <TouchableOpacity key={item.id}>
-              <Text>Color</Text>
-            </TouchableOpacity>
+        <View style={[AppStyles.row, AppStyles.colorsWrapper]}>
+          {productsColor.map((color, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setSelectedColor(color)}
+              style={[
+                AppStyles.colorCircle,
+                {
+                  backgroundColor: color,
+                  borderWidth: selectedColor === color ? 3 : 0,
+                  borderColor: AppColors.textSecondary,
+                },
+              ]}
+            ></TouchableOpacity>
           ))}
         </View>
 
         {/* Description */}
         <Text style={AppStyles.descriptionTitle}>Description</Text>
 
-        <Text style={AppStyles.descriptionTitle}>{product.description}</Text>
+        <Text style={AppStyles.descriptionText}>{product.description}</Text>
 
         {/* Add to cart */}
 
-        <View style={AppStyles.detailBottom}>
+        <View style={[AppStyles.row, AppStyles.detailBottom]}>
           <Text style={AppStyles.productDetailPrice}>$ {product.price}</Text>
 
-          <TouchableOpacity style={AppStyles.productCart}>
-            <Bag2 size="24" color={AppColors.textPrimary} />
+          <TouchableOpacity
+            onPress={handleAddToCart}
+            style={AppStyles.productCart}
+          >
+            <Bag2 size="24" variant="Bold" color={AppColors.white} />
             <Text style={AppStyles.productCartText}>Add to Cart</Text>
           </TouchableOpacity>
         </View>

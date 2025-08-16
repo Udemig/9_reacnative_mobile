@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import AppColors from './appColors';
+import { screenHeight, screenWidth } from './dimensions';
 
 const AppStyles = StyleSheet.create({
   // Global Styles
@@ -218,6 +219,111 @@ const AppStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,
+  },
+  ratingContainer: {
+    marginBottom: 15,
+  },
+  reviews: {
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  reviewsCount: {
+    fontSize: 15,
+    color: AppColors.textSecondary,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  stock: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  colorsWrapper: {
+    gap: 10,
+    marginBottom: 10,
+  },
+  colorCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: AppColors.white,
+  },
+  descriptionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: AppColors.textPrimary,
+  },
+  descriptionText: {
+    fontSize: 15,
+    lineHeight: 25,
+    color: AppColors.textPrimary,
+    marginBottom: 18,
+  },
+  detailBottom: {
+    justifyContent: 'space-between',
+    gap: 16,
+    marginTop: 20,
+  },
+  productCart: {
+    backgroundColor: AppColors.link,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+  },
+  productCartText: {
+    color: AppColors.white,
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  productDetailPrice: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  // Cart
+  cartHeader: {
+    paddingTop: 12,
+    paddingHorizontal: 20,
+  },
+  cartHeaderTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+    color: AppColors.textPrimary,
+  },
+  emptyWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 30,
+    backgroundColor: AppColors.error + '88',
+    padding: 20,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    marginVertical: 20,
+  },
+  emptyTitle: {
+    fontSize: 35,
+    textAlign: 'center',
+    fontWeight: '600',
+  },
+  emptyDescription: {
+    fontSize: 18,
+    fontWeight: '400',
+    textAlign: 'center',
+  },
+  emptyButton: {
+    backgroundColor: AppColors.link,
+    padding: 10,
+    textAlign: 'center',
+    borderRadius: 10,
+  },
+  emptyButtonText: {
+    fontSize: 17,
+    color: AppColors.white,
+    fontWeight: '500',
   },
 });
 
