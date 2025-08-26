@@ -1,52 +1,54 @@
-import { ActivityIndicator, Alert, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import api from '../utils/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../redux/slices/productSlice';
+import ProductCard from '../components/ProductCard';
 
 const MainPage = ({ navigation }) => {
 
-    const [products, setProducts] = useState();
-    const [loading, setLoading] = useState(true);
+    // HAFIZADAN(REDUX STORE) VERİ ÇEKMEK İÇİN USESELECTOR
+
+    const { products, loading, error } = useSelector(state => state.product);
+
+
+    // HAFIZADAKİ VERİYİ GÜNCELLEMEK İÇİN İSE DISPATCH
+
+
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
 
-        const getData = async () => {
-
-            api
-                .get('/products')
-                .then((res) => setProducts(res.data))
-                .catch(err => console.error(err))
-                .finally(() => setLoading(false))
-
-        }
-
-        getData();
+        dispatch(getProducts())
 
     }, [])
 
-    if (loading) return <View style={styles.container}><ActivityIndicator size='large' /></View>
+    // tekrardan istek atma fonksiyonu
+    const refetch = async () => dispatch(getProducts())
+
+
+    if (error) {
+        return (
+            <View style={styles.container}>
+                <Text style={{ color: "red", fontSize: 20 }}>{error.message}</Text>
+                <TouchableOpacity onPress={refetch} >
+                    <Text>Tekrar Dene</Text>
+                </TouchableOpacity>
+            </View >
+        )
+    }
+    if (loading) {
+        return <View style={styles.container}><ActivityIndicator size='large' /></View>
+    }
 
     return (
         <SafeAreaView>
             <FlatList
                 data={products}
-                renderItem={({ item, index }) => {
-
-                    console.log(item)
-
-                    return (
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('ProductPage', {id: item.id, products, setProducts})}
-                            style={styles.card}>
-                            <View key={item.id} style={styles.imgBg}>
-                                <Image source={{ uri: item?.image }} style={styles.img} resizeMode='contain' />
-                            </View>
-                            <View style={styles.textContainer}>
-                                <Text>{item.title}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }}
+                ListEmptyComponent={() => (<View><Text>Hiç ürün bulunamadı.</Text></View>)}
+                renderItem={({ item, index }) => <ProductCard item={item}/> }
             />
         </SafeAreaView>
     )
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     },
     img: {
         padding: 10,
-        width: "100%",
+        width: "100",
         height: "100%"
     },
     container: {

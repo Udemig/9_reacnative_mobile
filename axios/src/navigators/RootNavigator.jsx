@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainPage from '../screens/MainPage';
 import ProductPage from '../screens/ProductPage';
 import CartPage from '../screens/CartPage';
+import ProductEditPage from '../screens/ProductEditPage';
 
 
 const Stack = createStackNavigator();
@@ -21,12 +22,13 @@ const RootNavigator = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                            <Text style={{ marginRight: 20 }}>CART</Text>
+                            <Text style={{ marginRight: 20 }}>CREATE</Text>
                         </TouchableOpacity>
                 })}
 
                 name='MainPage' component={MainPage} />
             <Stack.Screen name='ProductPage' component={ProductPage} />
+            <Stack.Screen name='ProductEditPage' component={ProductEditPage} />
             <Stack.Screen name='CartPage' component={CartPage} />
         </Stack.Navigator>
 
