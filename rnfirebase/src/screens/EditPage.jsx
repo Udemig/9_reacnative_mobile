@@ -1,16 +1,14 @@
 import { Alert, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fontScale, horizontalScale, verticalScale } from '../utils/dimensions'
 import { AppColors } from '../utils/colors'
 import { ArchiveTick, ArrowDown, ArrowDown2, ArrowLeft2, Mobile, Signpost, Simcard1, User } from 'iconsax-react-nativejs'
-import { addDoc, collection } from '@react-native-firebase/firestore'
-import { db, storage } from '../../App'
+import { addDoc, collection, doc, getDoc, updateDoc } from '@react-native-firebase/firestore'
+import { db } from '../../App'
 import { launchImageLibrary } from 'react-native-image-picker'
-import { getStorage, ref, uploadBytes } from '@react-native-firebase/storage'
-import upload from '../utils/cloudinary.js';
 import axios from 'axios'
 
-const AddPage = ({ navigation }) => {
+const EditPage = ({ navigation,route }) => {
 
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -18,6 +16,36 @@ const AddPage = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [home, setHome] = useState('');
     const [image, setImage] = useState(null);
+
+    const {id} = route.params;
+
+    useEffect(() => {
+
+        const getData = async () => {
+
+            try {
+                const ref = doc(db, "contacts", id)
+
+                const snapshot = await getDoc(ref);
+
+                const document = snapshot.data()
+
+                setName(document.name);
+                setPhone(document.phone);
+                setMobile(document.mobile);
+                setEmail(document.email);
+                setImage(document.image);
+                setHome(document.home);
+
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+
+        getData();
+
+    }, [])
 
     const handleSubmit = async () => {
         const inputs = [name, phone, mobile, email, home];
@@ -28,25 +56,14 @@ const AddPage = ({ navigation }) => {
         }
 
         try {
+            const docRef = doc(db, 'contacts', id);
 
-            // AddDoc fonksiyonu ile veri ekleme işlemi yapabiliriz,
-            // * bizden 2 parametre ister, birincisi koleksiyon referansı => collection(db,'koleksiyonismi')
-            // ^ İkincisi ise eklenecek objenin veya verinin ta kendisidir.
-            const docRef = await addDoc(
-                collection(db, 'contacts'),
-                {
-                    name,
-                    phone,
-                    mobile,
-                    email,
-                    home,
-                    image
-                }
-            )
+            await updateDoc(docRef,{ name,phone,mobile,email,home,image})
 
-            Alert.alert('Başarılı', 'Kullanıcı başarıyla eklendi.')
+            Alert.alert('Başarılı',"Kullanıcı güncellendi.")
 
             navigation.navigate('HomePage')
+
         }
         catch (err) {
             console.error(err)
@@ -87,6 +104,7 @@ const AddPage = ({ navigation }) => {
                             // post ile resmi cloudinary'e yüklüyoruz
                             const response = await axios.post('https://api.cloudinary.com/v1_1/dgb1bomm8/upload', form)
 
+                            console.log(response?.data?.secure_url)
                             // cloudinary'den gelen cevabın secure_url yani https kullanan linkini de image olarak ayarlıyoruz ki kullanıcıyı kaydettiğimizde resmi de kaydolsun.
                             setImage(response?.data?.secure_url);
 
@@ -109,7 +127,7 @@ const AddPage = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <ArrowLeft2 size={fontScale(35)} color={AppColors.GREEN} />
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Create new contact</Text>
+                <Text style={styles.headerText}>Edit contact</Text>
                 <ArchiveTick size={fontScale(35)} color={AppColors.GREEN} onPress={handleSubmit} />
             </View>
             <TouchableOpacity onPress={pickImage}>
@@ -144,11 +162,11 @@ const AddPage = ({ navigation }) => {
                     </View>
 
                     <View style={styles.inputsContainer}>
-                        <TextInput onChangeText={setName} style={styles.input} placeholder='Name' />
-                        <TextInput onChangeText={setPhone} style={styles.input} placeholder='Phone' />
-                        <TextInput onChangeText={setMobile} style={styles.input} placeholder='Mobile' />
-                        <TextInput onChangeText={setEmail} style={styles.input} placeholder='Email' />
-                        <TextInput onChangeText={setHome} style={styles.input} placeholder='Home' />
+                        <TextInput value={name} onChangeText={setName} style={styles.input} placeholder='Name' />
+                        <TextInput value={phone} onChangeText={setPhone} style={styles.input} placeholder='Phone' />
+                        <TextInput value={mobile} onChangeText={setMobile} style={styles.input} placeholder='Mobile' />
+                        <TextInput value={email} onChangeText={setEmail} style={styles.input} placeholder='Email' />
+                        <TextInput value={home} onChangeText={setHome} style={styles.input} placeholder='Home' />
                     </View>
                     <View style={{ flexDirection: "row", height: "100%", paddingTop: verticalScale(20) }}>
                         <ArrowDown2 color={AppColors.GREEN} />
@@ -159,7 +177,7 @@ const AddPage = ({ navigation }) => {
     )
 }
 
-export default AddPage
+export default EditPage;
 
 const styles = StyleSheet.create({
     header: {

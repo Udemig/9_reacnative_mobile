@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { fontScale, horizontalScale, verticalScale } from '../utils/dimensions'
 import { AppColors } from '../utils/colors'
 import { ArchiveTick, ArrowDown, ArrowDown2, ArrowLeft2, Mobile, Signpost, Simcard1, User } from 'iconsax-react-nativejs'
-import { addDoc, collection, doc, getDoc } from '@react-native-firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDoc } from '@react-native-firebase/firestore'
 import { db } from '../../App'
-import { launchImageLibrary } from 'react-native-image-picker'
+import ImageLoader from '../components/ImageLoader'
+import { userNotFoundImg } from '../utils/constants'
 
 const DetailPage = ({ navigation, route }) => {
 
@@ -28,6 +29,32 @@ const DetailPage = ({ navigation, route }) => {
     }, [])
 
 
+    const handleDelete = () => {
+        Alert.alert(
+            user?.name,
+            'Rehberinizden bu kullanıcıyı silmek istediğinize emin misiniz?',
+            [
+                {
+                    text: "İptal",
+                    style: "cancel",
+                },
+                {
+                    text: "Evet",
+                    onPress: async () => {
+                        try {
+                            await deleteDoc(doc(db, "contacts", id));
+                            Alert.alert('Kullanıcı rehberden silindi.')
+                            navigation.navigate('HomePage');
+                            
+                        } catch (error) {
+                            console.log(error);
+                            Alert.alert('Rehberden silerken hata oluştu.')
+                        }
+                    }
+                }
+            ]
+        )
+    }
 
     return (
         <SafeAreaView>
@@ -36,11 +63,23 @@ const DetailPage = ({ navigation, route }) => {
                     <ArrowLeft2 size={fontScale(35)} color={AppColors.GREEN} />
                 </TouchableOpacity>
                 <Text style={styles.headerText}>Contact Details</Text>
+                <View style={{ gap: 5 }}>
+                    <TouchableOpacity
+                        style={[styles.btn, styles.edit]}
+                        onPress={() => navigation.navigate('EditPage', { id })}>
+                        <Text style={styles.btnText}>EDIT</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.btn, styles.delete]}
+                        onPress={() => handleDelete()}>
+                        <Text style={styles.btnText}>DELETE</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <Image
-                source={require('../assets/images/addcontact.png')}
+            <ImageLoader
+                source={{ uri: user?.image }}
                 style={{ width: "100%", height: verticalScale(259) }}
-                resizeMode='stretch'
+                resizeMode={user?.image ? 'stretch' : 'contain'}
             />
             <View style={styles.bottom}>
 
@@ -131,5 +170,18 @@ const styles = StyleSheet.create({
         borderColor: AppColors.GREEN,
         width: "100%",
         paddingBottom: verticalScale(4)
-    }
+    },
+    btn: {
+        paddingHorizontal: horizontalScale(8),
+        paddingVertical: verticalScale(5),
+        borderRadius: horizontalScale(5)
+    },
+    edit: {
+        backgroundColor: "rgba(236, 165, 33, 1)"
+    },
+    delete: {
+        backgroundColor: "rgba(236, 60, 33, 1)"
+    },
+    btnText: { textAlign: "center", fontSize: fontScale(18), color: AppColors.WHITE }
+
 })

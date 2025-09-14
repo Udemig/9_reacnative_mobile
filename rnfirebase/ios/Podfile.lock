@@ -1198,6 +1198,9 @@ PODS:
   - DoubleConversion (1.1.6)
   - fast_float (8.0.0)
   - FBLazyVector (0.81.1)
+  - Firebase/Auth (12.1.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 12.1.0)
   - Firebase/CoreOnly (12.1.0):
     - FirebaseCore (~> 12.1.0)
   - Firebase/Firestore (12.1.0):
@@ -1207,6 +1210,15 @@ PODS:
     - Firebase/CoreOnly
     - FirebaseStorage (~> 12.1.0)
   - FirebaseAppCheckInterop (12.1.0)
+  - FirebaseAuth (12.1.0):
+    - FirebaseAppCheckInterop (~> 12.1.0)
+    - FirebaseAuthInterop (~> 12.1.0)
+    - FirebaseCore (~> 12.1.0)
+    - FirebaseCoreExtension (~> 12.1.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GTMSessionFetcher/Core (< 6.0, >= 3.4)
+    - RecaptchaInterop (~> 101.0)
   - FirebaseAuthInterop (12.1.0)
   - FirebaseCore (12.1.0):
     - FirebaseCoreInternal (~> 12.1.0)
@@ -1246,14 +1258,27 @@ PODS:
     - GTMSessionFetcher/Core (< 6.0, >= 3.4)
   - fmt (11.0.2)
   - glog (0.3.5)
+  - GoogleUtilities/AppDelegateSwizzler (8.1.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
   - GoogleUtilities/Environment (8.1.0):
     - GoogleUtilities/Privacy
   - GoogleUtilities/Logger (8.1.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (8.1.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (8.1.0)":
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (8.1.0)
+  - GoogleUtilities/Reachability (8.1.0):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
   - "gRPC-C++ (1.69.0)":
     - "gRPC-C++/Implementation (= 1.69.0)"
     - "gRPC-C++/Interface (= 1.69.0)"
@@ -3716,9 +3741,14 @@ PODS:
     - React-perflogger (= 0.81.1)
     - React-utils (= 0.81.1)
     - SocketRocket
+  - RecaptchaInterop (101.0.0)
   - RNFBApp (23.2.0):
     - Firebase/CoreOnly (= 12.1.0)
     - React-Core
+  - RNFBAuth (23.3.1):
+    - Firebase/Auth (= 12.1.0)
+    - React-Core
+    - RNFBApp
   - RNFBFirestore (23.2.0):
     - Firebase/Firestore (= 12.1.0)
     - React-Core
@@ -3921,6 +3951,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -3934,6 +3965,7 @@ SPEC REPOS:
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAppCheckInterop
+    - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreExtension
@@ -3948,6 +3980,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - RecaptchaInterop
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -4098,6 +4131,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBAuth:
+    :path: "../node_modules/@react-native-firebase/auth"
   RNFBFirestore:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBStorage:
@@ -4118,6 +4153,7 @@ SPEC CHECKSUMS:
   FBLazyVector: b8f1312d48447cca7b4abc21ed155db14742bd03
   Firebase: 9edc9acf71313eb20e209c42e5469a42564fe1aa
   FirebaseAppCheckInterop: de890554a81967f16a0eb8d3def541c2bb42dece
+  FirebaseAuth: 6d0f2d449195c401e6d6ef1a891fff22bc60356d
   FirebaseAuthInterop: ede927b03baf02453e6e9de2df513cc28d3eb742
   FirebaseCore: 5a452ffa66f37c8e281076996837626c5d08c090
   FirebaseCoreExtension: dd89d73548ee9be5d8dc60e5c76bc421b965853b
@@ -4200,7 +4236,9 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 3eb9096cb139eb433965693bbe541d96eb3d3ec9
   ReactCodegen: 7aaf71af219f9f5daa7ad0c8457f3b148aaed563
   ReactCommon: e5df435ef0892875b7d503fbe3ec73a1a3712049
+  RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
   RNFBApp: 4839acec81056ce0b52a2c50d73223ea098673d6
+  RNFBAuth: 4b2f16e50df337fdc6bae04852fe0b8c7d698646
   RNFBFirestore: febc33f3638bf889a9850cfd4038a76399979c9d
   RNFBStorage: 285a3768eb73720d967f00019a748a333fbdedf5
   RNScreens: 4f2aed147a2775017923789d8a0a2d377712ec2e

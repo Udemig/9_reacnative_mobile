@@ -1,11 +1,14 @@
 import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ArrowRight2, Menu, Microphone2, ProfileAdd, SearchNormal } from 'iconsax-react-nativejs'
+import { ArrowRight2, Logout, LogoutCurve, Menu, Microphone2, ProfileAdd, SearchNormal, Trash } from 'iconsax-react-nativejs'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { verticalScale, horizontalScale, fontScale } from '../utils/dimensions'
 import { AppColors } from '../utils/colors'
 import { collection, getDocs } from '@react-native-firebase/firestore'
 import { db } from '../../App'
+import { userNotFoundImg } from '../utils/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOutThunk } from '../redux/slices/authSlice'
 
 const HomePage = ({ navigation }) => {
 
@@ -34,7 +37,23 @@ const HomePage = ({ navigation }) => {
 
     }, [])
 
+    // dispatch => store'da tutulan verilerde değişiklik yapacak bir aksiyon yolla
+
+    // useSelector => store'da tutulan verilerden istediğimi getir.
+
+    const { user, token, pending } = useSelector(store => store.auth);
+
+    console.log("Kullanıcı Verisi:", user)
+
     const [contacts, setContacts] = useState([]);
+
+    const dispatch = useDispatch();
+
+    const logout = async () => {
+
+        await dispatch(signOutThunk());
+
+    }
 
 
 
@@ -54,7 +73,10 @@ const HomePage = ({ navigation }) => {
 
 
             <View style={styles.middle}>
-                <Text style={styles.middleText}>My Profile</Text>
+                <Text style={styles.middleText}>{user?.displayName || user?.email}</Text>
+                <TouchableOpacity onPress={()=>logout()}>
+                    <LogoutCurve />
+                </TouchableOpacity>
                 <ArrowRight2 size={fontScale(30)} color={AppColors.BLACK} />
             </View>
 
@@ -72,7 +94,7 @@ const HomePage = ({ navigation }) => {
                             }
                         >
 
-                            <Image source={{ uri: 'https://picsum.photos/100' }} style={styles.cardImg} />
+                            <Image source={item?.image ? { uri: item.image } : userNotFoundImg} style={styles.cardImg} />
                             <Text style={styles.cardName}>{item.name}</Text>
 
                         </TouchableOpacity>
@@ -156,7 +178,9 @@ const styles = StyleSheet.create({
     cardImg: {
         width: horizontalScale(41),
         height: horizontalScale(41),
-        borderRadius: 10000
+        borderRadius: 10000,
+        borderWidth: 2,
+        borderColor: "rgba(0,0,0,0.3)"
     },
     cardName: {
         fontSize: fontScale(18)

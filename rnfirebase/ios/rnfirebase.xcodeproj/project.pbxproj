@@ -11,7 +11,7 @@
 		2E08032A902485951F3D1689 /* Pods_rnfirebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB98C9CE15C129C97B0CFEAD /* Pods_rnfirebase.framework */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		EC866B182E6335D400DE9844 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC866B172E6335D400DE9844 /* GoogleService-Info.plist */; };
+		ECD987B02E75AE2600AED273 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECD987AF2E75AE2600AED273 /* GoogleService-Info.plist */; };
 		F5475D0045A436C3254B605D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +25,7 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = rnfirebase/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rnfirebase/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB98C9CE15C129C97B0CFEAD /* Pods_rnfirebase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rnfirebase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC866B172E6335D400DE9844 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ECD987AF2E75AE2600AED273 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,7 +72,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				EC866B172E6335D400DE9844 /* GoogleService-Info.plist */,
+				ECD987AF2E75AE2600AED273 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* rnfirebase */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -163,9 +163,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				EC866B182E6335D400DE9844 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F5475D0045A436C3254B605D /* PrivacyInfo.xcprivacy in Resources */,
+				ECD987B02E75AE2600AED273 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

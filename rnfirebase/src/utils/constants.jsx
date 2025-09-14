@@ -1,0 +1,1 @@
+export const userNotFoundImg = require('../assets/images/notfound.png')
